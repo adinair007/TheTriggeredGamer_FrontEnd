@@ -10,8 +10,8 @@ import Button from 'react-bootstrap/Button'
 const Hero = ({ games }) => {
   const navigate = useNavigate();
 
-  function reviews(gameId) {
-    navigate(`/Reviews/${gameId}`);
+  function reviews(steamId) {
+    navigate(`/Reviews/${steamId}`);
   }
 
   return (

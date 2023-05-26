@@ -6,6 +6,7 @@ import Layout from "./components/Layout";
 import Home from "./components/home/Home";
 import Header from "./components/header/Header";
 import Trailer from "./components/trailer/Trailer";
+import Reviews from "./components/reviews/Reviews";
 
 function App() {
   const [games, setGames] = useState();
@@ -24,26 +25,19 @@ function App() {
     }
   };
 
-  const getGameData = async (gameId) => {
-     
-    try 
-    {
-        const response = await api.get(`/api/v1/games/${gameId}`);
+  const getGameData = async (steamId) => {
+    try {
+      const response = await api.get(`/api/v1/games/${steamId}`);
 
-        const singleGame = response.data;
+      const singleGame = response.data;
 
-        setGame(singleGame);
+      setGame(singleGame);
 
-        setReviews(singleGame.reviews);
-        
-
-    } 
-    catch (error) 
-    {
+      setReviews(singleGame.reviews);
+    } catch (error) {
       console.error(error);
     }
-
-  }
+  };
 
   useEffect(() => {
     getGames();
@@ -54,8 +48,19 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Layout />}>
-        <Route path="/" element={<Home games={games} />}></Route>
-        <Route path="/Trailer/:ytTrailerId" element={<Trailer/>}></Route>
+          <Route path="/" element={<Home games={games} />}></Route>
+          <Route path="/Trailer/:ytTrailerId" element={<Trailer />}></Route>
+          <Route
+            path="/Reviews/:steamId"
+            element={
+              <Reviews
+                getGameData={getGameData}
+                game={game}
+                reviews={reviews}
+                setReviews={setReviews}
+              />
+            }
+          ></Route>
         </Route>
       </Routes>
     </div>
